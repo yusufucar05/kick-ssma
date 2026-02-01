@@ -1,17 +1,39 @@
 class StreamPreset {
-  final String id;
+  final int? id;
   final String title;
-  final String category;
-  final String coverImage;
+  final String categoryName;
+  final String categoryImageUrl;
   final List<String> tags;
-  final bool isAdult;
+  final bool isMature;
 
   StreamPreset({
-    required this.id,
+    this.id,
     required this.title,
-    required this.category,
-    required this.coverImage,
+    required this.categoryName,
+    required this.categoryImageUrl,
     required this.tags,
-    required this.isAdult,
+    this.isMature = false,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'categoryName': categoryName,
+      'categoryImageUrl': categoryImageUrl,
+      'tags': tags.join(','),
+      'isMature': isMature ? 1 : 0,
+    };
+  }
+
+  factory StreamPreset.fromMap(Map<String, dynamic> map) {
+    return StreamPreset(
+      id: map['id'],
+      title: map['title'],
+      categoryName: map['categoryName'],
+      categoryImageUrl: map['categoryImageUrl'],
+      tags: (map['tags'] as String).split(','),
+      isMature: map['isMature'] == 1,
+    );
+  }
 }

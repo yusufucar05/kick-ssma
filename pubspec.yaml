@@ -36,6 +36,11 @@ dependencies:
   desktop_webview_window: ^0.2.0
   window_manager: ^0.3.8
   cupertino_icons: ^1.0.8
+  sqflite_common_ffi: ^2.3.0
+  path_provider: ^2.1.0
+  path: ^1.8.3
+  crypto: ^3.0.3
+  file_picker: ^8.0.0
 
 
 dev_dependencies:

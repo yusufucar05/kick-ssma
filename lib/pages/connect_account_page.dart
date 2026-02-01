@@ -10,3 +10,4 @@ class ConnectAccountPage extends StatelessWidget {
     );
   }
 }
+

@@ -1,52 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:ssma/core/theme/app_colors.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            const CircleAvatar(
-              radius: 32,
-              backgroundImage: AssetImage('assets/avatar.png'),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Kullanıcı Adı',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                _StatItem(label: 'Yayın', value: '30'),
-                _StatItem(label: 'Takipçi', value: '40'),
-                _StatItem(label: 'Abone', value: '50'),
-              ],
-            )
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(color: AppColors.border, width: 2),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.kickGreen.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.kickGreen, width: 2),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.person_rounded,
+                    color: AppColors.kickGreen,
+                    size: 30,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "UserName",
+                      style: TextStyle(
+                        color: AppColors.text,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "Yayıncı Paneli",
+                      style: TextStyle(
+                        color: AppColors.kickGreen,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 25),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildStatItem("30", "Saat"),
+              _buildStatItem("1.2K", "Takipçi"),
+              _buildStatItem("50", "Abone"),
+            ],
+          ),
+        ],
       ),
     );
   }
-}
 
-class _StatItem extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _StatItem({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildStatItem(String value, String label) {
     return Column(
       children: [
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
-        Text(label, style: const TextStyle(fontSize: 12)),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppColors.bg,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Text(
+            value,
+            style: const TextStyle(
+              color: AppColors.kickGreen,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(label, style: TextStyle(color: AppColors.surface, fontSize: 10)),
       ],
     );
   }

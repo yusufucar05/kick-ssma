@@ -5,8 +5,6 @@ class StreamSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Buraya ileride hazır ayarlar gelicek"),
-    );
+    return Center(child: Text("Buraya ileride hazır ayarlar gelicek"));
   }
 }

@@ -29,7 +29,7 @@ class _KickWebViewPanelState extends State<KickWebViewPanel> {
     );
 
     webview!
-      ..launch("https://kick.com/dashboard")
+      ..launch("https://www.youtube.com/@zynoxus")
       ..setBrightness(Brightness.dark);
   }
 
@@ -54,7 +54,7 @@ class _KickWebViewPanelState extends State<KickWebViewPanel> {
                 const Text(
                   'Kick Yayın Ayarları',
                   style: TextStyle(color: Colors.white),
-                )
+                ),
               ],
             ),
           ),
@@ -65,7 +65,7 @@ class _KickWebViewPanelState extends State<KickWebViewPanel> {
                 style: TextStyle(color: Colors.grey),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

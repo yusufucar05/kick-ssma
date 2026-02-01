@@ -1,32 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:ssma/features/home/home_page.dart';
+import 'package:ssma/core/theme/app_colors.dart';
+import 'package:ssma/features/sidebar/user_card.dart';
+import 'package:ssma/features/webview/kick_webview_service.dart';
 
-class SideBar extends StatelessWidget {
-  final Function(AppPage) onPageSelected;
+class Sidebar extends StatefulWidget {
+  final Function(int) onThemeChanged;
+  final Function(int) onPageChanged;
+  const Sidebar({super.key, required this.onThemeChanged, required this.onPageChanged});
 
-  const SideBar({super.key, required this.onPageSelected});
+  @override
+  State<Sidebar> createState() => _SidebarState();
+}
 
+class _SidebarState extends State<Sidebar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 260,
-      padding: const EdgeInsets.all(12),
+      width: 280,
+      color: AppColors.sidebarBg,
+      padding: const EdgeInsets.all(20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ElevatedButton(
-            onPressed: () => onPageSelected(AppPage.streamSettings),
-            child: const Text("Yayın Ayarları"),
-          ),
-          ElevatedButton(
-            onPressed: () => onPageSelected(AppPage.dashboard),
-            child: const Text("Düzenleme Kısmı"),
-          ),
-          ElevatedButton(
-            onPressed: () => onPageSelected(AppPage.connectAccount),
-            child: const Text("Hesabını Bağla"),
-          ),
+           UserCard(),
+          const SizedBox(height: 40),
+          _sidebarButton("Yayın Ayarlarım", Icons.settings, onTap: () => widget.onPageChanged(0)),
+          _sidebarButton("Yedekleme Sistemi", Icons.backup_outlined, onTap: () => widget.onPageChanged(1)),
+          _sidebarButton("Hesabını Bağla", Icons.link, onTap: () => KickWebViewService.openKickDashboard()),
+          const Spacer(),
+
+          _sidebarButton(AppColors.themeMode == 1 ? "Aydınlık Mod" : "Karanlık Mod",
+              AppColors.themeMode == 1 ? Icons.light_mode : Icons.dark_mode,
+              onTap: () {
+                AppColors.themeMode = AppColors.themeMode == 1 ? 0 : 1;
+                widget.onThemeChanged(AppColors.themeMode);
+              }),
         ],
+      ),
+    );
+  }
+
+  Widget _sidebarButton(String title, IconData icon, {required VoidCallback onTap}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: AppColors.kickGreen),
+        title: Text(title, style: TextStyle(color: AppColors.text, fontWeight: FontWeight.bold, fontSize: 13)),
+        onTap: onTap,
       ),
     );
   }
