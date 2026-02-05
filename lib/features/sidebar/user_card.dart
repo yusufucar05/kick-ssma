@@ -65,9 +65,9 @@ class UserCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatItem("30", "Saat"),
-              _buildStatItem("1.2K", "Takipçi"),
-              _buildStatItem("50", "Abone"),
+              _buildStatItem("?", "Saat"),
+              _buildStatItem("?", "Takipçi"),
+              _buildStatItem("?", "Abone"),
             ],
           ),
         ],
@@ -95,7 +95,7 @@ class UserCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        Text(label, style: TextStyle(color: AppColors.surface, fontSize: 10)),
+        Text(label, style: TextStyle(color: AppColors.text, fontSize: 10)),
       ],
     );
   }
