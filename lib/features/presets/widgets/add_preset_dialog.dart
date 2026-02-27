@@ -119,7 +119,7 @@ class _AddPresetDialogState extends State<AddPresetDialog> {
       style: TextStyle(color: AppColors.text),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: AppColors.surface),
+        labelStyle: TextStyle(color: AppColors.text),
         prefixIcon: Icon(icon, color: AppColors.kickGreen),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
