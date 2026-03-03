@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:ssma/features/home/home_page.dart';
+import 'package:ssma/presentation/views/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
 
   await windowManager.ensureInitialized();
 
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SSMA',
-      home: HomePage(),
+      home:  HomePage(),
     );
   }
 }

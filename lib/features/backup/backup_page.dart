@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:ssma/core/constants/app_strings.dart';
 import 'package:ssma/core/theme/app_colors.dart';
 import 'package:ssma/core/utils/backup_helper.dart';
-import 'package:ssma/features/home/home_view_model.dart';
+import 'package:ssma/presentation/viewmodels/home_view_model.dart';
 
 class BackupPage extends StatelessWidget {
   final HomeViewModel viewModel;
@@ -17,23 +18,23 @@ class BackupPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Yedekleme & Geri Yükleme",
+            Text( AppStrings.backupTitle,
                 style: TextStyle(color: AppColors.text, fontSize: 32, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            Text("Şablonlarını .ssma dosyası olarak kaydedebilir veya yedeklerini sisteme aktarabilirsin.",
+            Text(AppStrings.backupSubtitle,
                 style: TextStyle(color: AppColors.surface, fontSize: 16)),
             const SizedBox(height: 50),
             Row(
               children: [
                 _actionCard(
                   context,
-                  title: "Dışarı Aktar (.ssma)",
+                  title: AppStrings.exportBtn,
                   icon: Icons.upload_file_rounded,
                   onTap: () async {
                     final success = await BackupHelper.exportBackup(viewModel.presets);
                     if (success) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Yedek başarıyla oluşturuldu!")),
+                        const SnackBar(content: Text(AppStrings.exportSuccess)),
                       );
                     }
                   },
@@ -41,7 +42,7 @@ class BackupPage extends StatelessWidget {
                 const SizedBox(width: 30),
                 _actionCard(
                   context,
-                  title: "İçeri Aktar (.ssma)",
+                  title: AppStrings.importBtn,
                   icon: Icons.file_download_rounded,
                   onTap: () async {
                     final imported = await BackupHelper.importBackup();
@@ -50,7 +51,7 @@ class BackupPage extends StatelessWidget {
                         await viewModel.addPreset(preset);
                       }
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Şablonlar başarıyla içeri aktarıldı!")),
+                        const SnackBar(content: Text(AppStrings.importSuccess)),
                       );
                     }
                   },

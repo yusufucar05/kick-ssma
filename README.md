@@ -1,6 +1,6 @@
 # ssma
 
-Streamer Settings Menager App
+Kick Streamer Settings Manager App
 
 ## Getting Started
 

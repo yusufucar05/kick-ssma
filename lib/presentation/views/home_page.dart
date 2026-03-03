@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ssma/core/theme/app_colors.dart';
-import 'package:ssma/features/sidebar/sidebar.dart';
-import 'package:ssma/features/presets/preset_grid.dart';
+import 'package:ssma/presentation/views/preset_grid.dart';
+import 'package:ssma/presentation/views/sidebar.dart';
 import 'package:ssma/features/backup/backup_page.dart';
-import 'package:ssma/features/home/home_view_model.dart';
+import 'package:ssma/presentation/viewmodels/home_view_model.dart';
+import 'package:ssma/presentation/views/trash_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,14 +14,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   final HomeViewModel _viewModel = HomeViewModel();
   int _currentIndex = 0;
+
 
   @override
   void initState() {
     super.initState();
-    _viewModel.loadPresets();
-    _viewModel.addListener(() => setState(() {}));
+    _viewModel.initialize();
+    _viewModel.addListener(_onViewModelChange);
+  }
+
+  @override
+  void dispose() {
+    _viewModel.removeListener(_onViewModelChange);
+    super.dispose();
+  }
+
+  void _onViewModelChange() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -29,10 +42,13 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.bg,
       body: Row(
         children: [
+
           Sidebar(
+            viewModel: _viewModel,
             onThemeChanged: (mode) => setState(() {}),
             onPageChanged: (index) => setState(() => _currentIndex = index),
           ),
+
           Expanded(child: _buildBody()),
         ],
       ),
@@ -43,6 +59,8 @@ class _HomePageState extends State<HomePage> {
     switch (_currentIndex) {
       case 1:
         return BackupPage(viewModel: _viewModel);
+      case 2:
+        return TrashPage(viewModel: _viewModel);
       default:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,6 +76,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+
             Expanded(child: PresetGrid(viewModel: _viewModel)),
           ],
         );

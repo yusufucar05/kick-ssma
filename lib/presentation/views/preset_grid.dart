@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ssma/core/constants/app_strings.dart';
 import 'package:ssma/core/theme/app_colors.dart';
-import 'package:ssma/features/presets/models/stream_preset.dart';
+import 'package:ssma/domain/models/stream_preset.dart';
+import 'package:ssma/presentation/viewmodels/home_view_model.dart';
 import 'package:ssma/features/presets/widgets/preset_card.dart';
-import 'package:ssma/features/presets/widgets/skeleton_card.dart';
 import 'package:ssma/features/presets/widgets/add_preset_dialog.dart';
-import 'package:ssma/features/home/home_view_model.dart';
-import 'package:ssma/features/webview/kick_webview_service.dart';
+import 'package:ssma/features/presets/widgets/skeleton_card.dart';
+import 'package:ssma/data/remote/kick_api_service.dart';
 
 class PresetGrid extends StatefulWidget {
   final HomeViewModel viewModel;
@@ -18,11 +19,9 @@ class PresetGrid extends StatefulWidget {
 class _PresetGridState extends State<PresetGrid> {
   @override
   Widget build(BuildContext context) {
-
     if (widget.viewModel.isLoading) {
       return _buildLoadingGrid();
     }
-
 
     double screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = 3;
@@ -44,6 +43,7 @@ class _PresetGridState extends State<PresetGrid> {
       ),
       itemCount: widget.viewModel.presets.length + 1,
       itemBuilder: (context, index) {
+
         if (index == 0) {
           return _buildAddButton(context);
         }
@@ -52,8 +52,17 @@ class _PresetGridState extends State<PresetGrid> {
 
         return PresetCard(
           preset: preset,
-          onEdit: () {
-
+          onEdit: () async {
+            final result = await showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                backgroundColor: Colors.transparent,
+                child: AddPresetDialog(existingPreset: preset),
+              ),
+            );
+            if (result != null && result is StreamPreset) {
+              await widget.viewModel.editPreset(result);
+            }
           },
           onDelete: () async {
             if (preset.id != null) {
@@ -61,19 +70,55 @@ class _PresetGridState extends State<PresetGrid> {
             }
           },
           onApply: () async {
-            await KickWebViewService.applyPresetToKick(preset);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("${preset.title} Kick Dashboard'una uygulandı!"),
-                backgroundColor: AppColors.kickGreen,
-              ),
-            );
-          },
+            if (!widget.viewModel.isConnected) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppStrings.notConnectedError),
+                  backgroundColor: Colors.redAccent,
+                  action: SnackBarAction(
+                    label: AppStrings.menuConnect,
+                    textColor: AppColors.kickGreen,
+                    onPressed: () => widget.viewModel.connectToKick(),
+                  ),
+                ),
+              );
+              return;
+            }
+              final api = KickApiService();
+              int? catId = preset.categoryId;
+
+              if (catId == null || catId == 0) {
+                final searchResult = await api.searchCategoryDetailed(preset.categoryName);
+                catId = searchResult?['id'];
+              }
+
+              if (catId != null) {
+
+                bool ok = await api.updateChannel(catId, preset.title, preset.tags, preset.isMature);
+
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(ok ? "${preset.title} ${AppStrings.applySuccess}" : AppStrings.applyFail),
+                      backgroundColor: ok ? AppColors.kickGreen : Colors.red,
+                    ),
+                  );
+                }
+              } else {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(AppStrings.categoryNotFound),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },
         );
       },
     );
   }
-
 
   Widget _buildLoadingGrid() {
     return GridView.builder(
@@ -133,7 +178,7 @@ class _PresetGridState extends State<PresetGrid> {
               ),
               const SizedBox(height: 15),
               const Text(
-                "Yeni Şablon Ekle",
+                AppStrings.addPresetTitle,
                 style: TextStyle(
                   color: AppColors.kickGreen,
                   fontWeight: FontWeight.bold,
@@ -142,9 +187,10 @@ class _PresetGridState extends State<PresetGrid> {
               ),
               const SizedBox(height: 5),
               Text(
-                "Ayarlarını kaydet ve hızlı başla",
+                AppStrings.addPresetSub ,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.surface, fontSize: 18),
+
+                style: const TextStyle(color: Colors.grey, fontSize: 13),
               ),
             ],
           ),
