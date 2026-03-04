@@ -1,6 +1,28 @@
 # SSMA - Stream Settings Manager for Kick
 
-Kick yayıncılarının yayın ayarlarını (başlık, kategori) şablon olarak kaydedip tek tıkla uygulayabilmesini sağlayan bir Windows masaüstü uygulamasıdır.
+Kick yayıncılarının yayın ayarlarını (başlık, kategori, etiket) şablon olarak kaydedip tek tıkla uygulayabilmesini sağlayan bir Windows masaüstü uygulamasıdır.
+
+## Ekran Görüntüleri
+
+![Ana Ekran](<img width="1377" height="943" alt="Ekran görüntüsü 2026-03-04 155856" src="https://github.com/user-attachments/assets/de64e39b-e685-4b8a-b3b4-bf263911dbc1" />
+
+)
+
+![Şablon Oluşturma](<img width="1377" height="943" alt="Ekran görüntüsü 2026-03-04 155903" src="https://github.com/user-attachments/assets/32af95b2-91ab-4d09-b321-3a3e306b4aaa" />
+
+)
+
+![Şablon Düzenleme](<img width="1377" height="943" alt="Ekran görüntüsü 2026-03-04 155911" src="https://github.com/user-attachments/assets/88fefe3a-719e-4cf4-ae01-fd9fdb453832" />
+
+)
+
+![Yedekleme](<img width="1377" height="943" alt="Ekran görüntüsü 2026-03-04 155916" src="https://github.com/user-attachments/assets/4997870f-f953-4bae-a479-7dd859ec0ca7" />
+
+)
+
+![Çöp Kutusu](<img width="1377" height="943" alt="Ekran görüntüsü 2026-03-04 155958" src="https://github.com/user-attachments/assets/5b1cb52d-f6fb-4ba6-88c1-21cfc4b04fce" />
+
+)
 
 ## İndir
 
@@ -9,7 +31,7 @@ Kick yayıncılarının yayın ayarlarını (başlık, kategori) şablon olarak 
 ## Özellikler
 
 - 🎮 Yayın şablonları oluştur ve kaydet
-- ⚡ Tek tıkla Kick Dashboard'una uygula
+- ⚡ Tek tıkla Kick Dashboard'una uygula (başlık + kategori + etiketler)
 - 🗑️ Çöp kutusu sistemi (4 gün geri yükleme)
 - 💾 Yedekleme ve geri yükleme (.ssma formatı)
 - 🌙 Karanlık / Aydınlık mod
@@ -22,14 +44,14 @@ Kick yayıncılarının yayın ayarlarını (başlık, kategori) şablon olarak 
 3. `ssma.exe` dosyasını çalıştır
 4. Sol menüden **Hesabını Bağla**'ya tıkla, Kick hesabınla giriş yap
 
+> ⚠️ Windows "Bu uygulama tanınmıyor" uyarısı verebilir.
+> **Daha fazla bilgi** → **Yine de çalıştır**
+
 ## Bilinen Sorunlar
 
-> ⚠️ **Etiket ve +18 özellikleri** şu an Kick API tarafından desteklenmiyor.
-> Sorun Kick geliştirici ekibine iletildi → [Issue #344](https://github.com/KickEngineering/KickDevDocs/issues/344)
+> ⚠️ **+18 (Mature)** özelliği Kick API tarafından henüz desteklenmiyor.
 
 ## Geliştirici Kurulumu
-
-Projeyi kendin derlemek istiyorsan:
 
 ### Gereksinimler
 - Flutter SDK 3.x
@@ -57,6 +79,10 @@ flutter run -d windows
 - Kick Public API v1
 - SQLite
 - OAuth 2.0 + PKCE
+
+## İletişim
+
+Öneri ve istekleriniz için: ssma.oficall@gmail.com
 
 ## Lisans
 
